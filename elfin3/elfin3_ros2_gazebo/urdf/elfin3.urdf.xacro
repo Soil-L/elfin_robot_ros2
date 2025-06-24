@@ -6,9 +6,9 @@
   <xacro:arg name="use_fake_hardware" default="false" />
 
   <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find elfin3_ros2_gazebo)/urdf/elfin3_transmission.xacro" />
+  <!-- <xacro:include filename="$(find elfin3_ros2_gazebo)/urdf/elfin3_transmission.xacro" /> -->
   <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find elfin3_ros2_gazebo)/urdf/elfin3_gazebo.xacro" />
+  <!-- <xacro:include filename="$(find elfin3_ros2_gazebo)/urdf/elfin3_gazebo.xacro" /> -->
 
   <xacro:property name="PI" value="3.1415926535897931"/>
   
@@ -16,11 +16,11 @@
   <!-- <xacro:macro name="elfin3"> -->
     
     <!-- TRANSMISSION: -->
-    <xacro:elfin3_transmission />
+    <!-- <xacro:elfin3_transmission /> -->
     <!-- GAZEBO - ROS2_CONTROL: -->
-    <xacro:elfin3_gazebo  
+    <!-- <xacro:elfin3_gazebo  
     use_real_hardware="$(arg use_real_hardware)" 
-    use_fake_hardware="$(arg use_fake_hardware)"/>
+    use_fake_hardware="$(arg use_fake_hardware)"/> -->
     
   <link name="world"/>
   
@@ -449,17 +449,31 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  
-  <link name="elfin_dummy_gripper"/>
-  
-  <joint name="elfin_dummy_joint" type="fixed">
-    <origin
-      xyz="0 -0.111 0"
-      rpy="${PI/2} ${-PI/2} 0" />
-    <parent
-      link="elfin_link6" />
-    <child
-      link="elfin_dummy_gripper" />
-  </joint>
+
+  <!-- Add tool link -->
+<link name="tool_link">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <!-- <geometry>
+      <mesh filename="file://$(find your_package)/meshes/tool.stl"/>
+    </geometry> -->
+    <material name="tool_color">
+      <color rgba="0.8 0.2 0.2 1.0"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <!-- <geometry>
+      <mesh filename="file://$(find your_package)/meshes/tool.stl"/>
+    </geometry> -->
+  </collision>
+</link>
+
+<!-- Add tool joint -->
+<joint name="tool_joint" type="fixed">
+  <origin xyz="0 0 0.11" rpy="0 0 0"/>  <!-- 沿Z轴偏移110mm -->
+  <parent link="elfin_end_link"/>
+  <child link="tool_link"/>
+</joint>
   
 </robot>
