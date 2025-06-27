@@ -486,5 +486,16 @@
   <parent link="tool_link"/>
   <child link="elfin_end_link"/>
 </joint>
+
+<!-- Add sensor link -->
+<link name="sensor_link">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</link>
+
+<joint name="sensor_joint" type="fixed">
+  <origin xyz="0 0 0" rpy="0 0 -1.19163521"/>
+  <parent link="elfin_end_link"/>
+  <child link="sensor_link"/>
+</joint>
   
 </robot>
